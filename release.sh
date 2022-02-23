@@ -37,24 +37,24 @@ download_v2ray_core(){
 
 download_v2manager(){
   # 检查最新版本
-  latest_ver=`curl -k -s -I "${V2MANAGER_RELEASE_URL}/latest" | grep -i location | grep -o "tag.*" | grep -o "v[0-9.]*"`
-  if [ "${latest_ver}" = "" ] ; then
+  manager_ver=`curl -k -s -I "${V2MANAGER_RELEASE_URL}/latest" | grep -i location | grep -o "tag.*" | grep -o "v[0-9.]*"`
+  if [ "${manager_ver}" = "" ] ; then
     echo "Error: Connect v2manager download link failed." 
     exit 1
   fi
-
+  
   # 下载最新armeabi-v7a版本v2manager
-  arm32_link="${V2MANAGER_RELEASE_URL}/download/${latest_ver}/app-armeabi-v7a-release.apk"
-
-  curl "${arm32_link}" -k -L -o ./tmp/v2manager-v7a.apk >&2
-  if [ "$?" != "0" ] ; then
-    echo "Error: Download v2manager[armeabi-v7a] failed."
-    exit 1
-  fi
+  m32_link="${V2MANAGER_RELEASE_URL}/download/${manager_ver}/app-armeabi-v7a-release.apk"
+ 
+   curl "${m32_link}" -k -L -o ./tmp/v2manager-v7a.apk >&2
+   if [ "$?" != "0" ] ; then
+     echo "Error: Download v2manager[armeabi-v7a] failed."
+     exit 1
+   fi
 
   # 下载最新arm64-v8a版本V2ray
-  arm64_link="${V2MANAGER_RELEASE_URL}/download/${latest_ver}/app-arm64-v8a-release.apk"
-  curl "${arm64_link}" -k -L -o ./tmp/v2manager-v8a.apk >&2
+  m64_link="${V2MANAGER_RELEASE_URL}/download/${manager_ver}/app-arm64-v8a-release.apk"
+  curl "${m64_link}" -k -L -o ./tmp/v2manager-v8a.apk >&2
   if [ "$?" != "0" ] ; then
     echo "Error: Download v2manager[arm64-v8a] failed."
     exit 1
@@ -90,7 +90,7 @@ zip_files(){
   zip -q -r v2ray-magisk-android32.zip META-INF v2ray customize.sh README.md service.sh uninstall.sh
   
   # 创建64位版本zip文件
-  zip -q -r v2ray-magisk-android32.zip META-INF v2ray customize.sh README.md service.sh uninstall.sh
+  zip -q -r v2ray-magisk-android64.zip META-INF v2ray customize.sh README.md service.sh uninstall.sh
 
   # 移动可能被覆盖的文件
   mv v2ray v2ray.bk
@@ -102,7 +102,7 @@ zip_files(){
   cp tmp/geoip.dat v2ray/bin/geoip.dat
   cp tmp/geosite.dat v2ray/bin/geosite.dat
   cp tmp/v2manager-v7a.apk v2ray/bin/v2manager.apk
-  unzip -j -o tmp/v2ray-core-arm32.zip "v2ray" -d v2ray/bin/v2ray
+  unzip -j -o tmp/v2ray-core-arm32.zip "v2ray" -d v2ray/bin/
   cp module.prop.bk module.prop
   echo "updateJson=https://yatsuki.github.io/v2ray-release/release32.json" >> module.prop
   zip -q -r -u v2ray-magisk-android32.zip v2ray/bin module.prop
@@ -115,7 +115,7 @@ zip_files(){
   cp tmp/geoip.dat v2ray/bin/geoip.dat
   cp tmp/geosite.dat v2ray/bin/geosite.dat
   cp tmp/v2manager-v8a.apk v2ray/bin/v2manager.apk
-  unzip -j -o tmp/v2ray-core-arm64.zip "v2ray" -d v2ray/bin/v2ray
+  unzip -j -o tmp/v2ray-core-arm64.zip "v2ray" -d v2ray/bin/
   cp module.prop.bk module.prop
   echo "updateJson=https://yatsuki.github.io/v2ray-release/release64.json" >> module.prop
   zip -q -r -u v2ray-magisk-android64.zip v2ray/bin module.prop
