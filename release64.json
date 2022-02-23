@@ -1,6 +1,6 @@
 {
-    "version": "2.0.1",
-    "versionCode": 20220119,
-    "zipUrl": "https://github.com/yatsuki/v2ray/releases/download/2.0.1/v2ray-magisk-arm64.zip",
+    "version": "2.0.1.02",
+    "versionCode": 20220223,
+    "zipUrl": "https://github.com/yatsuki/v2ray/releases/download/v2.0.1.02/v2ray-magisk-android64.zip",
     "changelog": ""
 }
